@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Metadata</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Medium</th>
+      <th>Key</th>
+      <th>Value</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @metadata.each do |metadatum| %>
+      <tr>
+        <td><%= metadatum.medium_id %></td>
+        <td><%= metadatum.key %></td>
+        <td><%= metadatum.value %></td>
+        <td><%= link_to 'Show', metadatum %></td>
+        <td><%= link_to 'Edit', edit_metadatum_path(metadatum) %></td>
+        <td><%= link_to 'Destroy', metadatum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Metadatum', new_metadatum_path %>

@@ -1,0 +1,33 @@
+<%= form_for(@transcode) do |f| %>
+  <% if @transcode.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@transcode.errors.count, "error") %> prohibited this transcode from being saved:</h2>
+
+      <ul>
+      <% @transcode.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :general_option %><br>
+    <%= f.text_field :general_option %>
+  </div>
+  <div class="field">
+    <%= f.label :infile_option %><br>
+    <%= f.text_field :infile_option %>
+  </div>
+  <div class="field">
+    <%= f.label :outfile_option %><br>
+    <%= f.text_field :outfile_option %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

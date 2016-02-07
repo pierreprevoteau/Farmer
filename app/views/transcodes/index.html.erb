@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Transcodes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>General option</th>
+      <th>Infile option</th>
+      <th>Outfile option</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @transcodes.each do |transcode| %>
+      <tr>
+        <td><%= transcode.title %></td>
+        <td><%= transcode.general_option %></td>
+        <td><%= transcode.infile_option %></td>
+        <td><%= transcode.outfile_option %></td>
+        <td><%= link_to 'Show', transcode %></td>
+        <td><%= link_to 'Edit', edit_transcode_path(transcode) %></td>
+        <td><%= link_to 'Destroy', transcode, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Transcode', new_transcode_path %>

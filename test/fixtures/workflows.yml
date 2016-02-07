@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  kind: MyString
+  active: false
+  in_folder: MyString
+  out_folder: MyString
+  transcode_id: 1
+
+two:
+  title: MyString
+  kind: MyString
+  active: false
+  in_folder: MyString
+  out_folder: MyString
+  transcode_id: 1

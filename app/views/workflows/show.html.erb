@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @workflow.title %>
+</p>
+
+<p>
+  <strong>Kind:</strong>
+  <%= @workflow.kind %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @workflow.active %>
+</p>
+
+<p>
+  <strong>In folder:</strong>
+  <%= @workflow.in_folder %>
+</p>
+
+<p>
+  <strong>Out folder:</strong>
+  <%= @workflow.out_folder %>
+</p>
+
+<p>
+  <strong>Transcode:</strong>
+  <%= @workflow.transcode_id %>
+</p>
+
+<%= link_to 'Edit', edit_workflow_path(@workflow) %> |
+<%= link_to 'Back', workflows_path %>

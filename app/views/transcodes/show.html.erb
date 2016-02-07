@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @transcode.title %>
+</p>
+
+<p>
+  <strong>General option:</strong>
+  <%= @transcode.general_option %>
+</p>
+
+<p>
+  <strong>Infile option:</strong>
+  <%= @transcode.infile_option %>
+</p>
+
+<p>
+  <strong>Outfile option:</strong>
+  <%= @transcode.outfile_option %>
+</p>
+
+<%= link_to 'Edit', edit_transcode_path(@transcode) %> |
+<%= link_to 'Back', transcodes_path %>

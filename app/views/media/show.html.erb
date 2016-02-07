@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @medium.title %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @medium.state %>
+</p>
+
+<p>
+  <strong>Workflow:</strong>
+  <%= @medium.workflow_id %>
+</p>
+
+<%= link_to 'Edit', edit_medium_path(@medium) %> |
+<%= link_to 'Back', media_path %>
