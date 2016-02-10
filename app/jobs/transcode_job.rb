@@ -1,38 +1,38 @@
 class TranscodeJob
+  require 'fileutils'
   @queue = :transcode
 
-  require 'fileutils'
-
-  def self.perform(medium_id, transcode_id)
-    @medium = Medium.find(medium_id)
-    @transcode = Transcode.find(transcode_id)
+  def self.perform(medium_id)
 
     puts "--------------------------------------------------------------------------------"
     puts "********************************************************"
-    puts "**** Performing " + @transcode.title + " transcode for " + @medium.title
+    puts "****              Performing transcode              ****"
     puts "********************************************************"
 
+    @medium = Medium.find(medium_id)
+    @workflow = Workflow.find(@medium.workflow_id)
+    @transcode = Transcode.find(@workflow.transcode_id)
+
     if @medium.state.to_i < 1
-      puts "Media not ready for Transcode !"
-      puts "--------------------------------------------------------------------------------"
-      sleep 10
-      Resque.enqueue(TranscodeJob, medium_id, transcode_id)
+      puts "Not Ready"
+      Resque.enqueue_in(30.seconds, TranscodeJob, medium_id)
     elsif @medium.state.to_i == 1
-      working_directory = ApplicationController.get_working_directory_path(medium_id)
-      infiles = Dir.entries(working_directory).select {|f| !File.directory? f}
+      puts "Processing"
+      working_directory = ApplicationController.find_media_working_directory(medium_id)
+      files = ApplicationController.find_files_in_directory(working_directory)
       general_option = @transcode.general_option
       infile_option = @transcode.infile_option
       outfile_option = @transcode.outfile_option
-      infiles.each do |file|
+
+      files.each do |file|
         transcode_cmd = "ffmpeg " + general_option + " " + infile_option + " -i " + working_directory + file + " " + outfile_option + " " + working_directory + "OUT_" + medium_id
         system transcode_cmd
       end
-      @medium.update(state: '2')
-      puts "Media transcoded"
-      puts "--------------------------------------------------------------------------------"
+      ApplicationController.set_state_to_2(medium_id)
     else
-      puts "Media already transcoded"
-      puts "--------------------------------------------------------------------------------"
+      puts "Already done"
     end
+
+    puts "--------------------------------------------------------------------------------"
   end
 end

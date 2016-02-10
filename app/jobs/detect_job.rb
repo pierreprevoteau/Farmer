@@ -18,15 +18,13 @@ class DetectJob
 
         puts workflow_in_directory + "-->" + file
 
-        medium_id = ApplicationController.create_new_media_asset(file, workflow.id)
-        ApplicationController.move_media_to_in_progress(workflow.id, file)
-        ApplicationController.set_state_to_0(medium_id)
-        ApplicationController.create_media_working_directory(medium_id)
-        ApplicationController.copy_media_to_working_directory(medium_id, file)
-        ApplicationController.move_media_to_done(workflow.id, file)
-        ApplicationController.set_state_to_1(medium_id)
+        ApplicationController.move_media_to_in_tmp(workflow.id, file)
 
-        Resque.enqueue(TranscodeJob, medium_id, workflow.transcode_id)
+        medium_id = ApplicationController.create_new_media_asset(file, workflow.id)
+
+        Resque.enqueue(CopyToWorkingDirectoryJob, file, medium_id)
+        Resque.enqueue(TranscodeJob, medium_id)
+        Resque.enqueue(CopyToOutDirectoryJob, medium_id)
       end
     end
 

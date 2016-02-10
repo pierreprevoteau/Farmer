@@ -1,0 +1,2 @@
+DetectJob:
+  every: "10s"

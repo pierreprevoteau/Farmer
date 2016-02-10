@@ -1,5 +1,8 @@
 class PagesController < ApplicationController
   def dev
-    Resque.enqueue(DetectJob)
+  end
+
+  def overview
+    @media = Medium.all.order(id: :desc)
   end
 end

@@ -1,0 +1,22 @@
+<h1>Pages#overview</h1>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Title</th>
+      <th>Workflow</th>
+      <th>State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @media.each do |medium| %>
+    <tr>
+      <th scope="row"><%= medium.id %></th>
+      <td><%= medium.title %></td>
+      <td><%= medium.workflow.title %></td>
+      <td><%= medium.state %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

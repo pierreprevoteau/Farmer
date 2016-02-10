@@ -17,16 +17,15 @@ class ApplicationController < ActionController::Base
     return media_working_directory
   end
 
+  def self.find_media_in_tmp_directory
+    media_in_tmp_directory = "public/in_directory/tmp/"
+    return media_in_tmp_directory
+  end
+
   def self.find_workflow_in_directory(workflow_id)
     @workflow = Workflow.find(workflow_id)
     workflow_in_directory = "public/in_directory/" + @workflow.in_folder + "/"
     return workflow_in_directory
-  end
-
-  def self.find_workflow_in_progress_directory(workflow_id)
-    @workflow = Workflow.find(workflow_id)
-    workflow_in_progress_directory = "public/in_directory/" + @workflow.in_folder + "/IN_PROGRESS/"
-    return workflow_in_progress_directory
   end
 
   def self.find_workflow_out_directory(workflow_id)
@@ -42,9 +41,16 @@ class ApplicationController < ActionController::Base
   def self.copy_media_to_working_directory(medium_id, file_name)
     @medium = Medium.find(medium_id)
     media_working_directory = ApplicationController.find_media_working_directory(medium_id)
-    media_in_progress_directory = ApplicationController.find_workflow_in_progress_directory(@medium.workflow_id)
+    media_in_tmp_directory = ApplicationController.find_media_in_tmp_directory
     file_ext = File.extname(file_name)
-    FileUtils.cp(media_in_progress_directory + file_name, media_working_directory + 'IN_' + medium_id + file_ext)
+    FileUtils.cp(media_in_tmp_directory + file_name, media_working_directory + 'IN_' + medium_id + file_ext)
+  end
+
+  def self.copy_media_to_out_directory(medium_id)
+    @medium = Medium.find(medium_id)
+    media_working_directory = ApplicationController.find_media_working_directory(medium_id)
+    media_out_directory = ApplicationController.find_workflow_out_directory(@medium.workflow_id)
+    FileUtils.cp(media_working_directory + "OUT_" + medium_id, media_out_directory + @medium.title )
   end
 
   def self.set_state_to_0(medium_id)
@@ -72,9 +78,15 @@ class ApplicationController < ActionController::Base
     @medium.update(state: '4')
   end
 
+  def self.move_media_to_in_tmp(workflow_id, file_name)
+    media_in_directory = ApplicationController.find_workflow_in_directory(workflow_id)
+    media_in_tmp_directory = ApplicationController.find_media_in_tmp_directory
+    FileUtils.mv(media_in_directory + file_name, media_in_tmp_directory + file_name)
+  end
+
   def self.move_media_to_done(workflow_id, file_name)
-    media_in_progress_directory = ApplicationController.find_workflow_in_progress_directory(workflow_id)
-    FileUtils.mv(media_in_progress_directory + file_name, media_in_directory + 'DONE/' + file_name)
+    media_in_directory = ApplicationController.find_workflow_in_directory(workflow_id)
+    FileUtils.mv(media_in_directory + file_name, media_in_directory + 'DONE/' + file_name)
   end
 
   def self.move_media_to_failed(workflow_id, file_name)
@@ -89,10 +101,6 @@ class ApplicationController < ActionController::Base
 
   def self.find_files_in_directory(folder)
     files = Dir.entries(folder).select {|f| !File.directory? f}
-    files.delete(".DS_Store")
-    files.delete("DONE")
-    files.delete("FAILED")
-    files.delete("IN_PROGRESS")
     return files
   end
 
@@ -101,6 +109,7 @@ class ApplicationController < ActionController::Base
     @medium = Medium.new(title: file_basename, workflow_id: workflow_id)
     @medium.save
     medium_id = (@medium.id).to_s
+    ApplicationController.set_state_to_0(medium_id)
     return medium_id
   end
 
