@@ -1,22 +1,56 @@
-<h1>Pages#overview</h1>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Workflow</th>
+            <th>State</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @pending.each do |medium| %>
+          <tr>
+            <th scope="row"><%= medium.id %></th>
+            <td><%= medium.title %></td>
+            <td><%= medium.workflow.title %></td>
+            <td><%= medium.state %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <hr>
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Title</th>
-      <th>Workflow</th>
-      <th>State</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @media.each do |medium| %>
-    <tr>
-      <th scope="row"><%= medium.id %></th>
-      <td><%= medium.title %></td>
-      <td><%= medium.workflow.title %></td>
-      <td><%= medium.state %></td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+
+
+      <% @worker_jobs.sort_by {|w, j| j['run_at'] ? j['run_at'].to_s() : '' }.each do |worker, job| %>
+      <%= job['payload']['args'] %>
+      <% end %>
+
+      <hr>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Workflow</th>
+            <th>State</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @completed.each do |medium| %>
+          <tr>
+            <th scope="row"><%= medium.id %></th>
+            <td><%= medium.title %></td>
+            <td><%= medium.workflow.title %></td>
+            <td><%= medium.state %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<hr>

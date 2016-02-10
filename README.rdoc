@@ -4,4 +4,14 @@
 - 1 : copied from in_directory to working_directory
 - 2 : transcoded
 - 3 : copied from working_directory to out_directory
-- 4 : ready for purge 
+- 4 : ready for purge
+
+
+*State status*
+------------------------------
+- 0 : detected
+- 1 : copied from in_directory to working_directory
+- 2 : transcode start
+- 3 : transcode end
+- 4 : copied from working_directory to out_directory
+- 5 : ready for purge 
