@@ -3,13 +3,6 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
 
-  def self.get_working_directory_path(medium_id)
-    working_directory_path = "public/working_directory/" + medium_id.to_s + "/"
-    return working_directory_path
-  end
-
-
-####################
 
 
   def self.find_media_working_directory(medium_id)
@@ -53,6 +46,46 @@ class ApplicationController < ActionController::Base
     FileUtils.cp(media_working_directory + "OUT_" + medium_id, media_out_directory + @medium.title )
   end
 
+  def self.set_state_to_detected(medium_id)
+    @medium = Medium.find(medium_id)
+    @medium.update(state: 'detected')
+  end
+
+  def self.set_state_to_copied_to_working_directory(medium_id)
+    @medium = Medium.find(medium_id)
+    @medium.update(state: 'copied_to_working_directory')
+  end
+
+  def self.set_state_to_metadata_gathered(medium_id)
+    @medium = Medium.find(medium_id)
+    @medium.update(state: 'metadata_gathered')
+  end
+
+  def self.set_state_to_transcode_started(medium_id)
+    @medium = Medium.find(medium_id)
+    @medium.update(state: 'transcode_started')
+  end
+
+  def self.set_state_to_transcode_ended(medium_id)
+    @medium = Medium.find(medium_id)
+    @medium.update(state: 'transcode_ended')
+  end
+
+  def self.set_state_to_copied_to_out_directory(medium_id)
+    @medium = Medium.find(medium_id)
+    @medium.update(state: 'copied_to_out_directory')
+  end
+
+  def self.set_state_to_ready_for_purge(medium_id)
+    @medium = Medium.find(medium_id)
+    @medium.update(state: 'ready_for_purge')
+  end
+
+  def self.set_state_to_failed(medium_id)
+    @medium = Medium.find(medium_id)
+    @medium.update(state: 'failed')
+  end
+
   def self.set_state_to_0(medium_id)
     @medium = Medium.find(medium_id)
     @medium.update(state: '0')
@@ -78,25 +111,12 @@ class ApplicationController < ActionController::Base
     @medium.update(state: '4')
   end
 
-  def self.move_media_to_in_tmp(workflow_id, file_name)
+  def self.move_media_to_in_tmp(workflow_id, file_name, medium_id)
     media_in_directory = ApplicationController.find_workflow_in_directory(workflow_id)
     media_in_tmp_directory = ApplicationController.find_media_in_tmp_directory
-    FileUtils.mv(media_in_directory + file_name, media_in_tmp_directory + file_name)
-  end
-
-  def self.move_media_to_done(workflow_id, file_name)
-    media_in_directory = ApplicationController.find_workflow_in_directory(workflow_id)
-    FileUtils.mv(media_in_directory + file_name, media_in_directory + 'DONE/' + file_name)
-  end
-
-  def self.move_media_to_failed(workflow_id, file_name)
-    media_in_directory = ApplicationController.find_workflow_in_directory(workflow_id)
-    FileUtils.mv(media_in_directory + file_name, media_in_directory + 'FAILED/' + file_name)
-  end
-
-  def self.move_media_to_in_progress(workflow_id, file_name)
-    media_in_directory = ApplicationController.find_workflow_in_directory(workflow_id)
-    FileUtils.mv(media_in_directory + file_name, media_in_directory + 'IN_PROGRESS/' + file_name)
+    tmp_file_name = medium_id + "_" + file_name
+    FileUtils.mv(media_in_directory + file_name, media_in_tmp_directory + tmp_file_name)
+    return tmp_file_name
   end
 
   def self.find_files_in_directory(folder)
@@ -109,7 +129,6 @@ class ApplicationController < ActionController::Base
     @medium = Medium.new(title: file_basename, workflow_id: workflow_id)
     @medium.save
     medium_id = (@medium.id).to_s
-    ApplicationController.set_state_to_0(medium_id)
     return medium_id
   end
 

@@ -11,38 +11,9 @@
           </tr>
         </thead>
         <tbody>
-          <% @pending.each do |medium| %>
+          <% @media.each do |medium| %>
           <tr>
-            <th scope="row"><%= medium.id %></th>
-            <td><%= medium.title %></td>
-            <td><%= medium.workflow.title %></td>
-            <td><%= medium.state %></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <hr>
-
-
-
-      <% @worker_jobs.sort_by {|w, j| j['run_at'] ? j['run_at'].to_s() : '' }.each do |worker, job| %>
-      <%= job['payload']['args'] %>
-      <% end %>
-
-      <hr>
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Workflow</th>
-            <th>State</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @completed.each do |medium| %>
-          <tr>
-            <th scope="row"><%= medium.id %></th>
+            <th><%= medium.id %></th>
             <td><%= medium.title %></td>
             <td><%= medium.workflow.title %></td>
             <td><%= medium.state %></td>
