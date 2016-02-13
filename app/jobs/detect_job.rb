@@ -19,8 +19,10 @@ class DetectJob
         Resque.enqueue(CopyToWorkingDirectoryJob, tmp_file_name, medium_id)
         Resque.enqueue(GatherMetadataJob, medium_id)
         Resque.enqueue(TranscodeJob, medium_id)
+        Resque.enqueue(PushToInterplayJob, medium_id)
         Resque.enqueue(CopyToOutDirectoryJob, medium_id)
       end
+
     end
   end
 end

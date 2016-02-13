@@ -132,4 +132,16 @@ class ApplicationController < ActionController::Base
     return medium_id
   end
 
+  def self.create_transcode_cmd(medium_id, file)
+    @medium = Medium.find(medium_id)
+    @workflow = Workflow.find(@medium.workflow_id)
+    @transcode = Transcode.find(@workflow.transcode_id)
+    working_directory = ApplicationController.find_media_working_directory(medium_id)
+    general_option = @transcode.general_option
+    infile_option = @transcode.infile_option
+    outfile_option = @transcode.outfile_option
+    transcode_cmd = "ffmpeg " + general_option + " " + infile_option + " -i " + working_directory + file + " " + outfile_option + " " + working_directory + "OUT_" + medium_id
+    return transcode_cmd
+  end
+
 end
