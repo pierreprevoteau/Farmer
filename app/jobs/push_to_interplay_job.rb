@@ -13,5 +13,6 @@ class PushToInterplayJob
     else
       Resque.enqueue_in(10.seconds, PushToInterplayJob, medium_id)
     end
+    
   end
 end

@@ -14,5 +14,6 @@ class CopyToWorkingDirectoryJob
     else
       Resque.enqueue_in(60.seconds, CopyToWorkingDirectoryJob, file, medium_id)
     end
+    
   end
 end

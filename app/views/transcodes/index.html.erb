@@ -9,6 +9,7 @@
       <th>General option</th>
       <th>Infile option</th>
       <th>Outfile option</th>
+      <th>Extention</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,6 +21,7 @@
         <td><%= transcode.general_option %></td>
         <td><%= transcode.infile_option %></td>
         <td><%= transcode.outfile_option %></td>
+        <td><%= transcode.extention %></td>
         <td><%= link_to 'Show', transcode %></td>
         <td><%= link_to 'Edit', edit_transcode_path(transcode) %></td>
         <td><%= link_to 'Destroy', transcode, method: :delete, data: { confirm: 'Are you sure?' } %></td>

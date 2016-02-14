@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :transcodes
   get 'pages/dev'
   get 'pages/overview'
 

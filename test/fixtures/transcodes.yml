@@ -5,9 +5,11 @@ one:
   general_option: MyString
   infile_option: MyString
   outfile_option: MyString
+  extention: MyString
 
 two:
   title: MyString
   general_option: MyString
   infile_option: MyString
   outfile_option: MyString
+  extention: MyString

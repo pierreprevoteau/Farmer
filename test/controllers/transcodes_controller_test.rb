@@ -18,7 +18,7 @@ class TranscodesControllerTest < ActionController::TestCase
 
   test "should create transcode" do
     assert_difference('Transcode.count') do
-      post :create, transcode: { general_option: @transcode.general_option, infile_option: @transcode.infile_option, outfile_option: @transcode.outfile_option, title: @transcode.title }
+      post :create, transcode: { extention: @transcode.extention, general_option: @transcode.general_option, infile_option: @transcode.infile_option, outfile_option: @transcode.outfile_option, title: @transcode.title }
     end
 
     assert_redirected_to transcode_path(assigns(:transcode))
@@ -35,7 +35,7 @@ class TranscodesControllerTest < ActionController::TestCase
   end
 
   test "should update transcode" do
-    patch :update, id: @transcode, transcode: { general_option: @transcode.general_option, infile_option: @transcode.infile_option, outfile_option: @transcode.outfile_option, title: @transcode.title }
+    patch :update, id: @transcode, transcode: { extention: @transcode.extention, general_option: @transcode.general_option, infile_option: @transcode.infile_option, outfile_option: @transcode.outfile_option, title: @transcode.title }
     assert_redirected_to transcode_path(assigns(:transcode))
   end
 

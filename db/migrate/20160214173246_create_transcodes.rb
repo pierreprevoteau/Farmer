@@ -5,6 +5,7 @@ class CreateTranscodes < ActiveRecord::Migration
       t.string :general_option
       t.string :infile_option
       t.string :outfile_option
+      t.string :extention
 
       t.timestamps null: false
     end

@@ -21,5 +21,6 @@ class TranscodeJob
     else
       Resque.enqueue_in(60.seconds, TranscodeJob, medium_id)
     end
+    
   end
 end

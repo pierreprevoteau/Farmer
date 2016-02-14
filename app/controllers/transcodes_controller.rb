@@ -69,6 +69,6 @@ class TranscodesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transcode_params
-      params.require(:transcode).permit(:title, :general_option, :infile_option, :outfile_option)
+      params.require(:transcode).permit(:title, :general_option, :infile_option, :outfile_option, :extention)
     end
 end

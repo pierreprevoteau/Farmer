@@ -13,5 +13,6 @@ class GatherMetadataJob
     else
       Resque.enqueue_in(60.seconds, GatherMetadataJob, medium_id)
     end
+    
   end
 end
