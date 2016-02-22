@@ -41,9 +41,12 @@ class ApplicationController < ActionController::Base
 
   def self.copy_media_to_out_directory(medium_id)
     @medium = Medium.find(medium_id)
+    @workflow = Workflow.find(@medium.workflow_id)
+    @transcode = Transcode.find(@workflow.transcode_id)
+    extention = @transcode.extention
     media_working_directory = ApplicationController.find_media_working_directory(medium_id)
     media_out_directory = ApplicationController.find_workflow_out_directory(@medium.workflow_id)
-    FileUtils.cp(media_working_directory + "OUT_" + medium_id, media_out_directory + @medium.title )
+    FileUtils.cp(media_working_directory + "OUT_" + medium_id + "." + extention, media_out_directory + @medium.title + "." + extention)
   end
 
   def self.set_state_to_detected(medium_id)
@@ -140,7 +143,8 @@ class ApplicationController < ActionController::Base
     general_option = @transcode.general_option
     infile_option = @transcode.infile_option
     outfile_option = @transcode.outfile_option
-    transcode_cmd = "ffmpeg " + general_option + " " + infile_option + " -i " + working_directory + file + " " + outfile_option + " " + working_directory + "OUT_" + medium_id
+    extention = @transcode.extention
+    transcode_cmd = "ffmpeg " + general_option + " " + infile_option + " -i " + working_directory + file + " " + outfile_option + " " + working_directory + "OUT_" + medium_id + "." + extention
     return transcode_cmd
   end
 
