@@ -64,6 +64,11 @@ class ApplicationController < ActionController::Base
     @medium.update(state: 'metadata_gathered')
   end
 
+  def self.set_state_to_metadata_started(medium_id)
+    @medium = Medium.find(medium_id)
+    @medium.update(state: 'metadata_started')
+  end
+
   def self.set_state_to_transcode_started(medium_id)
     @medium = Medium.find(medium_id)
     @medium.update(state: 'transcode_started')
@@ -146,6 +151,14 @@ class ApplicationController < ActionController::Base
     extention = @transcode.extention
     transcode_cmd = "ffmpeg " + general_option + " " + infile_option + " -i " + working_directory + file + " " + outfile_option + " " + working_directory + "OUT_" + medium_id + "." + extention
     return transcode_cmd
+  end
+
+  def self.create_mediainfo_cmd(medium_id, file)
+    @medium = Medium.find(medium_id)
+    working_directory = ApplicationController.find_media_working_directory(medium_id)
+    file_path = working_directory + file
+    mediainfo_cmd = `mediainfo --Inform='Video;%Duration/String3%' #{file_path}`
+    return mediainfo_cmd
   end
 
 end

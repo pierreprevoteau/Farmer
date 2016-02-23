@@ -7,8 +7,10 @@
           <tr>
             <th>#</th>
             <th>Title</th>
+						<th>Duration</th>
             <th>Workflow</th>
             <th>State</th>
+						<th>Creation</th>
           </tr>
         </thead>
         <tbody>
@@ -16,8 +18,14 @@
           <tr>
             <th><%= medium.id %></th>
             <td><%= medium.title %></td>
+						<td><% if (medium.metadatum).empty? == true %>
+                --:--:--:--
+            <% else %>
+                <%= medium.metadatum.first.value %>
+            <% end %></td>
             <td><%= medium.workflow.title %></td>
             <td><%= medium.state %></td>
+						<td><%= medium.created_at %></td>
           </tr>
           <% end %>
         </tbody>

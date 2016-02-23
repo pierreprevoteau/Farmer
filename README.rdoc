@@ -2,6 +2,7 @@
 ------------------------------
 - detected
 - copied_to_working_directory
+- metadata_started
 - metadata_gathered
 - transcode_started
 - transcode_ended
