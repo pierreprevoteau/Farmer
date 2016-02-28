@@ -1,2 +1,5 @@
 DetectJob:
   every: "10s"
+
+PurgeJob:
+  every: "1h"

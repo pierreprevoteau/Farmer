@@ -1,35 +1,48 @@
-<meta http-equiv="refresh" content="5" />
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Title</th>
-						<th>Duration</th>
-            <th>Workflow</th>
-            <th>State</th>
-						<th>Creation</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @media.each do |medium| %>
-          <tr>
-            <th><%= medium.id %></th>
-            <td><%= medium.title %></td>
-						<td><% if (medium.metadatum).empty? == true %>
-                --:--:--:--
-            <% else %>
-                <%= medium.metadatum.first.value %>
-            <% end %></td>
-            <td><%= medium.workflow.title %></td>
-            <td><%= medium.state %></td>
-						<td><%= medium.created_at %></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+			<ul class="nav nav-pills" role="tablist">
+				<% @workflows.each do |workflow| %>
+    		<li role="presentation"><a href="#<%= workflow.id %>" aria-controls="<%= workflow.id %>" role="tab" data-toggle="tab"><%= workflow.title %> <span class="badge"><%= eval("@workflows_count_#{workflow.id}") %></span></a></li>
+				<% end %>
+			</ul>
+			<br>
+			<div class="tab-content">
+				<% @workflows.each do |workflow| %>
+				<div role="tabpanel" class="tab-pane" id="<%= workflow.id %>">
+					<div class="table-responsive">
+			      <table class="table table-striped table-hover">
+			        <thead>
+			          <tr>
+			            <th>#Id</th>
+			            <th>Title</th>
+									<th>Duration</th>
+			            <th>State</th>
+									<th>Creation</th>
+									<th>Update</th>
+			          </tr>
+			        </thead>
+			        <tbody>
+			          <% @media.where(workflow_id: workflow.id).each do |medium| %>
+			          <tr>
+			            <td>#<%= medium.id %></td>
+			            <th><%= medium.title %></th>
+									<td><% if (medium.metadatum).empty? == true %>
+			                --:--:--:--
+			            <% else %>
+			                <%= medium.metadatum.first.value %>
+			            <% end %></td>
+			            <td><%= medium.state %></td>
+									<td><%= medium.created_at %></td>
+									<td><%= medium.updated_at %></td>
+			          </tr>
+			          <% end %>
+			        </tbody>
+			      </table>
+					</div>
+				</div>
+				<% end %>
+			</div>
     </div>
   </div>
 </div>
