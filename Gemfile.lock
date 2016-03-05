@@ -130,6 +130,8 @@ GEM
       redis (~> 3.0)
       resque (~> 1.25)
       rufus-scheduler (~> 3.0)
+    resque-sliders (0.2.3)
+      resque (>= 1.15.0, < 2.0)
     rufus-scheduler (3.2.0)
     sass (3.4.21)
     sass-rails (5.0.4)
@@ -185,6 +187,7 @@ DEPENDENCIES
   resque
   resque-retry
   resque-scheduler
+  resque-sliders
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
