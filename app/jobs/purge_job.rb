@@ -9,7 +9,9 @@ class PurgeJob
 
     @media.each do |medium|
       ApplicationController.set_state_to_ready_for_purge(medium.id)
-      
+      medium_path = ApplicationController.find_media_working_directory(medium.id)
+      FileUtils.rm_rf(medium_path)
+      medium.destroy
     end
 
   end
