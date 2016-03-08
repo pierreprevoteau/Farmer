@@ -17,7 +17,6 @@ ADD db /app/db
 # Gems
 ADD Gemfile /app/
 ADD Gemfile.lock /app/
-ADD vendor/cache /app/vendor/cache
 RUN bundle install
 
 # Code
