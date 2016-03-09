@@ -26,4 +26,4 @@ ADD lib /app/lib
 
 EXPOSE 9080
 
-CMD bundle exec puma -C ./config/puma.rb && kewatcher -c ./config/resque.yml
+CMD bundle exec puma -C ./config/puma.rb
