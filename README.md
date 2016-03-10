@@ -1,2 +1,2 @@
-# Farmer-node
+# Farmer-manager
 ---
