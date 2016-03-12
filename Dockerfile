@@ -1,29 +1,18 @@
-FROM ruby:2.2.3
-
-RUN apt-get update && apt-get install -y wget apt-transport-https
-RUN wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-RUN echo 'deb https://deb.nodesource.com/node_0.12 jessie main' > /etc/apt/sources.list.d/nodesource.list
-RUN apt-get update && apt-get install -y nodejs
-
-WORKDIR /app
-
-# Mostly static
-ADD config.ru /app/
-ADD Rakefile /app/
-ADD bin /app/bin
-ADD public /app/public
-ADD db /app/db
-
-# Gems
-ADD Gemfile /app/
-ADD Gemfile.lock /app/
-RUN bundle install
-
-# Code
-ADD config /app/config
-ADD app /app/app
-ADD lib /app/lib
-
-EXPOSE 9080
-
-CMD bundle exec puma -C ./config/puma.rb
+FROM seapy/rails-nginx-unicorn-pro:v1.0-ruby2.2.0-nginx1.6.0
+MAINTAINER seapy(iamseapy@gmail.com)
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y --force-yes libpq-dev
+ENV SQL_HOST 192.168.99.100
+ENV SQL_PORT 32769
+ENV SQL_USERNAME postgres
+ENV SQL_PASSWORD postgres
+ENV SECRET_KEY_BASE mysecret
+ENV REDIS_HOST 192.168.99.100
+ENV REDIS_PORT 32768
+ADD Gemfile /app/Gemfile
+ADD Gemfile.lock /app/Gemfile.lock
+RUN bundle install --without development test
+ADD . /app
+EXPOSE 80
