@@ -3,3 +3,6 @@ DetectJob:
 
 PurgeJob:
   every: "1h"
+
+MountJob:
+  every: "1m"
